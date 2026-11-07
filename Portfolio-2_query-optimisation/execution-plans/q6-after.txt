@@ -1,0 +1,8 @@
+"Limit  (cost=0.28..46.30 rows=20 width=24) (actual time=0.112..0.160 rows=20.00 loops=1)"
+"  Buffers: shared hit=22"
+"  ->  Index Scan using idx_products_category_price on products  (cost=0.28..253.37 rows=110 width=24) (actual time=0.109..0.153 rows=20.00 loops=1)"
+"        Index Cond: ((category_id = 3) AND (price >= '10000'::numeric) AND (price <= '30000'::numeric))"
+"        Index Searches: 1"
+"        Buffers: shared hit=22"
+"Planning Time: 0.408 ms"
+"Execution Time: 0.210 ms"
