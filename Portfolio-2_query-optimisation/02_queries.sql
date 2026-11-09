@@ -23,7 +23,7 @@ FROM customers c
 JOIN orders o       ON o.customer_id = c.customer_id
 JOIN order_items oi ON oi.order_id   = o.order_id
 JOIN products p     ON p.product_id  = oi.product_id
-WHERE c.email = 'user12345@karthub.test'
+WHERE c.email = 'user12345@cashflow.test'
 ORDER BY o.order_date DESC;
 
 -- Q4: Top 10 best-selling products (aggregation across large tables)

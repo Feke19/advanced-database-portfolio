@@ -40,3 +40,22 @@ PostgreSQL parses the query, rewrites it, and the **planner** estimates the cost
 ## Evidence folder contents
 - `execution-plans/` before/after text outputs
 - `screenshots/` query results and plan outputs
+
+
+# Portfolio 3: Transactions and Concurrency (CashFlow)
+
+Database: PostgreSQL. Builds on the Portfolio 1 schema and Portfolio 2 seed data.
+
+## Files
+- `00_test_setup.sql` creates two test products (one with 5 in stock, one with 0)
+- `01_commit_rollback.sql` atomicity: commit, rollback, savepoint
+- `02_concurrency_demos.md` two-session demos of lost update, locking, isolation levels, deadlock
+
+## Why transactions matter for e-commerce
+Placing an order changes several tables at once (orders, order_items, products stock, payments). These must succeed or fail **together** (ACID):
+- **Atomicity:** all steps happen or none do (Tests 1, 2, 4)
+- **Consistency:** constraints such as `stock_quantity >= 0` are never violated
+- **Isolation:** simultaneous customers do not corrupt each other's work (Demos 1 to 5)
+- **Durability:** committed orders survive a crash (PostgreSQL write-ahead log)
+
+
