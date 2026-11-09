@@ -59,3 +59,69 @@ Placing an order changes several tables at once (orders, order_items, products s
 - **Durability:** committed orders survive a crash (PostgreSQL write-ahead log)
 
 
+# Portfolio 4: NoSQL and Advanced Data Models (CashFlow, MongoDB)
+
+Same case study as Portfolios 1 to 3. Model type: **document database (MongoDB)**.
+
+## How to run
+1. Install MongoDB Community Server and `mongosh`.
+2. `mongosh --file 01_setup_and_insert.js` creates the `CashFlow` database, validation rules, indexes and sample data.
+3. Ran `02_queries_and_indexes.js` (whole file or section by section) and screenshot each section's output.
+
+## Document model
+
+| Relational (Portfolio 1) | MongoDB collection | Design decision |
+
+| customers + addresses | `customers` | Addresses **embedded** (always read with the customer) |
+| products + categories | `products` | Category **embedded**; reviews **embedded**; attributes vary per product type |
+| orders + order_items + payments + deliveries | `orders` | Items, payment and delivery **embedded** as a purchase-time snapshot |
+
+**Sample product (document):**
+```json
+{
+  "sku": "LAP-001",
+  "name": "Aero 14 Laptop",
+  "category": { "name": "Laptops", "path": ["Electronics", "Computers", "Laptops"] },
+  "price": "450000.00",
+  "stock": 12,
+  "specs": { "cpu": "Core i5", "ramGB": 16, "storageGB": 512 },
+  "tags": ["laptop", "portable"],
+  "reviews": [ { "user": "cust_001", "rating": 5, "comment": "Fast and light" } ]
+}
+
+
+{
+  "_id": "ObjectId('6af240928e97050c01eb7267')",
+  "sku": "LAP-002",
+  "name": "Zen 15 Laptop",
+  "description": "Performance laptop for creators",
+  "category": {
+    "name": "Laptops",
+    "path": [
+      "Electronics",
+      "Computers",
+      "Laptops"
+    ]
+  },
+  "price": "NumberDecimal('780000.00')",
+  "stock": "NumberInt('5')",
+  "specs": {
+    "cpu": "Core i7",
+    "ramGB": "NumberInt('32')",
+    "storageGB": "NumberInt('1024')",
+    "screenInch": "Double('15.6')"
+  },
+  "tags": [
+    "laptop",
+    "creator",
+    "gaming"
+  ],
+  "reviews": [],
+  "ratingAvg": "NumberInt('0')",
+  "reviewCount": "NumberInt('0')",
+  "createdAt": "ISODate('2026-02-01T00:00:00.000Z')"
+}
+```
+A pair of sneakers instead has `sizes` and `colors` and no `specs`. Both live in the same collection.
+
+
