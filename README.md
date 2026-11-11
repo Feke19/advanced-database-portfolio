@@ -16,7 +16,7 @@ CashFlow is a simulated online store selling clothes, accessories.
 
 # Portfolio 2: Query Processing and Optimisation (CashFlow)
 
-Database: PostgreSQL. Uses the schema from `Portfolio-1_database-design/schema.sql`.
+Database: PostgreSQL. Uses the schema from `portfolio-1-database-design/schema.sql`.
 
 ## How I implemented and tested this
 1. Ran `01_seed_data.sql` to generate 50k customers, 5k products, 200k orders and 600k order items.
