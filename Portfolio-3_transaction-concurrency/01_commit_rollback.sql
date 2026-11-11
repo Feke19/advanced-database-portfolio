@@ -1,10 +1,8 @@
--- Portfolio 3, Part A: Atomicity, Commit, Rollback, Savepoints
-
 
 -- TEST 1: Successful order, all steps COMMIT together
 
 SELECT COUNT(*) AS orders_before FROM orders;
-SELECT stock_quantity AS stock_before FROM products WHERE sku = 'SKU-TEST-001';  -- expect 5
+SELECT stock_quantity AS stock_before FROM products WHERE sku = 'SKU-TEST-001';
 
 BEGIN;
 
@@ -34,12 +32,10 @@ COMMIT;
 SELECT o.order_id, o.status, o.total_amount, p.status AS payment_status
 FROM orders o JOIN payments p USING (order_id)
 ORDER BY o.order_id DESC LIMIT 1;
-SELECT stock_quantity AS stock_after FROM products WHERE sku = 'SKU-TEST-001';   -- expect 3
+SELECT stock_quantity AS stock_after FROM products WHERE sku = 'SKU-TEST-001';
 
 
 -- TEST 2: Failed order, constraint violation triggers ROLLBACK
--- Customer orders 10 but only 3 are left; the CHECK (stock_quantity >= 0)
--- constraint rejects the stock update, so NOTHING from this order is saved.
 
 SELECT COUNT(*) AS orders_before FROM orders;
 
@@ -52,13 +48,11 @@ SELECT currval(pg_get_serial_sequence('orders','order_id')), product_id, 10, pri
 FROM products WHERE sku = 'SKU-TEST-001';
 
 UPDATE products SET stock_quantity = stock_quantity - 10 WHERE sku = 'SKU-TEST-001';
--- ERROR: new row for relation "products" violates check constraint
--- The transaction is now in an aborted state; further commands are rejected.
 
 ROLLBACK;
 
 SELECT COUNT(*) AS orders_after FROM orders;  
-SELECT stock_quantity FROM products WHERE sku = 'SKU-TEST-001';  -- still 3
+SELECT stock_quantity FROM products WHERE sku = 'SKU-TEST-001';
 
 
 -- TEST 3: Manual ROLLBACK (customer abandons checkout)

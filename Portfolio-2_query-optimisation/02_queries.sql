@@ -1,6 +1,4 @@
--- Portfolio 2: Business queries for KartHub
--- Run each one BEFORE and AFTER creating indexes (03_indexes.sql).
--- Save the output of each EXPLAIN into execution-plans/ (e.g. q1_before.txt, q1_after.txt).
+
 
 -- Q1: Order history for one customer (a customer opens "My Orders")
 EXPLAIN (ANALYZE, BUFFERS)
@@ -58,6 +56,3 @@ WHERE category_id = 3
   AND price BETWEEN 10000 AND 30000
 ORDER BY price
 LIMIT 20;
-
--- Also run each query once WITHOUT "EXPLAIN (ANALYZE, BUFFERS)" and
--- screenshot the actual result rows as evidence of correct output.

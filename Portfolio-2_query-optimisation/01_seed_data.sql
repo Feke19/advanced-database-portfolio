@@ -1,12 +1,9 @@
--- Portfolio 2: Seed data for KartHub (run AFTER portfolio-1 schema.sql, on an empty database)
--- Volumes: 50k customers, 5k products, 200k orders, ~600k order items
 
 INSERT INTO customers (first_name, last_name, email, phone, password_hash)
 SELECT 'First' || g, 'Last' || g, 'user' || g || '@karthub.test',
        '080' || lpad(g::text, 8, '0'), md5(g::text)
 FROM generate_series(1, 50000) g;
 
--- One default address per customer (address_id matches customer_id on a fresh database)
 INSERT INTO addresses (customer_id, street, city, state, country, postal_code, is_default)
 SELECT customer_id,
        (customer_id % 200 + 1) || ' Main Street',
@@ -33,7 +30,7 @@ SELECT c, c,
        0
 FROM (SELECT (floor(random() * 50000) + 1)::int AS c FROM generate_series(1, 200000)) s;
 
--- 3 distinct products per order
+
 INSERT INTO order_items (order_id, product_id, quantity, unit_price)
 SELECT o.order_id, p.product_id, (random() * 4)::int + 1, p.price
 FROM orders o
@@ -63,7 +60,7 @@ SELECT order_id,
 FROM orders
 WHERE status IN ('SHIPPED','DELIVERED');
 
--- Refresh planner statistics so execution plans are accurate
+
 ANALYZE;
 
 -- Sanity check

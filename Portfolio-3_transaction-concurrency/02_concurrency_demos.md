@@ -43,7 +43,7 @@ Two customers buy the last units at the same moment. The app reads stock, calcul
 UPDATE products
 SET stock_quantity = stock_quantity - 4
 WHERE sku = 'SKU-TEST-001' AND stock_quantity >= 4;
--- "UPDATE 0" means not enough stock; the app then rolls back / informs the customer
+
 ```
 Try it in both sessions with the Demo 1 timing. Row-level locking makes the second statement wait, then re-check the condition against the new committed value.
 

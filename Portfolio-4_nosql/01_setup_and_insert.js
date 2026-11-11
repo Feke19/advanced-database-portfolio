@@ -1,7 +1,7 @@
 
 const kh = db.getSiblingDB("CashFlow");
 
-// Start clean so the script can be re-run
+
 ["products", "customers", "orders"].forEach((c) => kh.getCollection(c).drop());
 
 kh.createCollection("products", {
@@ -12,7 +12,7 @@ kh.createCollection("products", {
       properties: {
         sku: { bsonType: "string" },
         name: { bsonType: "string" },
-        price: { bsonType: "decimal", minimum: 0 }, // Decimal128 avoids float rounding on money
+        price: { bsonType: "decimal", minimum: 0 }, 
         stock: { bsonType: "number", minimum: 0 },
         tags: { bsonType: "array", items: { bsonType: "string" } },
       },
@@ -57,7 +57,7 @@ kh.createCollection("orders", {
   },
 });
 
-// Unique indexes (equivalent of UNIQUE constraints in SQL)
+
 kh.products.createIndex({ sku: 1 }, { unique: true });
 kh.customers.createIndex({ email: 1 }, { unique: true });
 kh.orders.createIndex({ orderId: 1 }, { unique: true });

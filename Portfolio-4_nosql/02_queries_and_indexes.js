@@ -46,7 +46,7 @@ printjson(
     { sku: "SHO-001", stock: { $gte: 2 } },
     { $inc: { stock: -2 } },
   ),
-); // matchedCount 0 would mean "not enough stock", the document-DB equivalent of a conditional UPDATE
+); 
 
 print("\n--- B2: Add a review and update counters in ONE atomic update ---");
 printjson(
